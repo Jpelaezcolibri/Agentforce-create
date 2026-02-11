@@ -29,19 +29,20 @@ wizard.registerSteps([
 wizard.render();
 
 // Mount Help Agent
-import('./components/HelpAgent.js').then(() => {
-    const helpAgent = document.createElement('help-agent');
-    document.body.appendChild(helpAgent);
+// Mount Help Agent
+import './components/HelpAgent.js';
 
-    // Context awareness: dispatch event on render
-    const originalRender = wizard.render.bind(wizard);
-    wizard.render = () => {
-        originalRender();
-        window.dispatchEvent(new CustomEvent('wizard-step-change', {
-            detail: { step: wizard.currentStep }
-        }));
-    };
-});
+const helpAgent = document.createElement('help-agent');
+document.body.appendChild(helpAgent);
+
+// Context awareness: dispatch event on render
+const originalRender = wizard.render.bind(wizard);
+wizard.render = () => {
+    originalRender();
+    window.dispatchEvent(new CustomEvent('wizard-step-change', {
+        detail: { step: wizard.currentStep }
+    }));
+};
 
 // Navigation buttons
 document.getElementById('btn-next').addEventListener('click', () => wizard.next());
